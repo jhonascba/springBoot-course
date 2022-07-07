@@ -4,9 +4,7 @@ package com.myorg.course.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.myorg.course.entities.pk.OrderItemPK;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,8 +13,13 @@ import java.util.Objects;
 public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    private OrderItemPK id = new OrderItemPK();
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    @ManyToOne
+    private Product product;
+    @ManyToOne
+    private Order order;
     private Integer quantity;
     private Double price;
 
@@ -24,27 +27,35 @@ public class OrderItem implements Serializable {
     }
 
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
-        id.setOrder(order);
-        id.setProduct(product);
+        this.order = order;
+        this.product = product;
         this.quantity = quantity;
         this.price = price;
     }
 
-    @JsonIgnore
-    public Order getOrder() {
-        return id.getOrder();
+    public Long getId() {
+        return id;
     }
 
-    public void setOrder(Order order) {
-        id.setOrder(order);
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Product getProduct() {
-        return id.getProduct();
+        return product;
     }
 
     public void setProduct(Product product) {
-        id.setProduct(product);
+        this.product = product;
+    }
+
+    @JsonIgnore
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Integer getQuantity() {

@@ -18,7 +18,7 @@ public class ResourceExceptionHandler {
         String error = "Resource not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err =
-                new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+                new StandardError(Instant.now(), status.value(), error, "ID NAO ENCONTRADO: " + e.getId(), request.getRequestURI());
 
         return ResponseEntity.status(status).body(err);
     }

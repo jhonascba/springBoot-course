@@ -23,7 +23,7 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
-    @OneToMany(mappedBy = "id.order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> items = new HashSet<>();
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //mapeando as duas entidades para ter o mesmo id
     private Payment payment;
@@ -82,6 +82,10 @@ public class Order implements Serializable {
 
     public Set<OrderItem> getItems() {
         return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
     }
 
     public Double getTotal() {

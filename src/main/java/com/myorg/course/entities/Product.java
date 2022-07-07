@@ -26,7 +26,7 @@ public class Product implements Serializable {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
-    @OneToMany(mappedBy = "id.product")
+    @OneToMany(mappedBy = "product")
     private Set<OrderItem> items = new HashSet<>();
 
     public Product() {
