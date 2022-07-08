@@ -15,10 +15,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,8 +52,7 @@ public class OrderService {
             Order order = optionalOrder.get();
             Set<OrderItem> itemsAntigos = order.getItems();
             orderItemRepository.deleteAll(itemsAntigos);
-            orderItemRepository.flush();
-            repository.save(order);
+            order.setItems(new HashSet<>());
 
             List<Long> productIds = orderItemsDto.stream().map(IdQuantidadePrecoDTO::getId).collect(Collectors.toList());
             List<Product> products = productRepository.findAllById(productIds);
